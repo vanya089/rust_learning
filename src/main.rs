@@ -1,11 +1,30 @@
-use ferris_says::say;
-use std::io::{stdout, BufWriter};
+mod chapter2;
 
-fn main(){
-    let stdout = stdout();
-    let message = String::from("Hello fellow Rustanceans!");
-    let width = message.chars().count();
+fn main() {
+    let list = [1, 3, 5, 7, 9,11,13,52,78];
+    let item = 1;
 
-    let mut writer = BufWriter::new(stdout.lock());
-    say(&message, width, &mut writer).unwrap();
+    let result = binary_search(&list, item);
+
+    match result {
+        Some(index) => println!("Элемент {} найден на позиции {}.", item, index),
+        None => println!("Элемент {} не найден в списке.", item),
+    }
+}
+
+fn binary_search(list: &[i32; 9], item: i32) -> Option<usize> {
+    let mut low = 0;
+    let mut high = list.len()-1;
+
+    while low <= high {
+        let mid = (low+high)/2;
+        if list[mid]==item {
+            return Some(mid);
+        } else if list[mid] < item {
+            low=mid+1;
+        } else {
+            high = mid - 1;
+        }
+    }
+    None
 }
